@@ -1,4 +1,4 @@
-# slide_button
+# sliding_button
 
 A Flutter package that enables apps to use a slide button to confirm actions.
 

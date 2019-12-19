@@ -2,9 +2,9 @@ library slide_button;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:slide_button/widgets/platform_progress_indicator.dart';
+import 'package:sliding_button/widgets/platform_progress_indicator.dart';
 
-class SlideButton extends StatefulWidget {
+class SlidingButton extends StatefulWidget {
 
   // Change the HEIGHT of the button. The width is always double.infinity
   final double buttonHeight;
@@ -33,7 +33,7 @@ class SlideButton extends StatefulWidget {
   // A simple VoidCallback that WILL BE CALLED WHEN THE SLIDE ACTION IS COMPLETED
   final VoidCallback onSlideSuccessCallback;
 
-  const SlideButton({Key key,
+  const SlidingButton({Key key,
     this.buttonHeight = 55,
     this.buttonColor = Colors.green,
     this.buttonTextColor = Colors.white,
@@ -50,7 +50,7 @@ class SlideButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => SlideButtonState(
+  State<StatefulWidget> createState() => SlidingButtonState(
       buttonHeight: this.buttonHeight, buttonColor: this.buttonColor,
       buttonText: this.buttonText, slideButtonMargin: this.slideButtonMargin,
       slideButtonColor: this.slideButtonColor, buttonTextColor: this.buttonTextColor,
@@ -62,7 +62,7 @@ class SlideButton extends StatefulWidget {
 
 }
 
-class SlideButtonState extends State<SlideButton> {
+class SlidingButtonState extends State<SlidingButton> {
 
   final _buttonKey = GlobalKey();
   final _slideButtonKey = GlobalKey();
@@ -106,7 +106,7 @@ class SlideButtonState extends State<SlideButton> {
   double _slideButtonSize;
   double _slideButtonMargin;
 
-  SlideButtonState({
+  SlidingButtonState({
     this.buttonHeight,
     this.buttonColor,
     this.buttonTextColor,
