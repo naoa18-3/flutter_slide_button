@@ -6,8 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class PlatformProgressIndicator extends StatelessWidget {
-
-  const PlatformProgressIndicator({this.large = false, this.materialStrokeWidth = 4.0, this.materialValueColor,});
+  const PlatformProgressIndicator({
+    this.large = false,
+    this.materialStrokeWidth = 4.0,
+    this.materialValueColor,
+  });
 
   final bool large;
   final double materialStrokeWidth;
@@ -26,5 +29,4 @@ class PlatformProgressIndicator extends StatelessWidget {
       );
     }
   }
-
 }

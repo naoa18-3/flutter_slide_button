@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:sliding_button/widgets/platform_progress_indicator.dart';
 
 class SlidingButton extends StatefulWidget {
-
   // Change the HEIGHT of the button. The width is always double.infinity
   final double buttonHeight;
   // Change the BACKGROUND COLOR of the button
@@ -33,7 +32,8 @@ class SlidingButton extends StatefulWidget {
   // A simple VoidCallback that WILL BE CALLED WHEN THE SLIDE ACTION IS COMPLETED
   final VoidCallback onSlideSuccessCallback;
 
-  const SlidingButton({Key key,
+  const SlidingButton({
+    Key key,
     this.buttonHeight = 55,
     this.buttonColor = Colors.green,
     this.buttonTextColor = Colors.white,
@@ -51,19 +51,22 @@ class SlidingButton extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => SlidingButtonState(
-      buttonHeight: this.buttonHeight, buttonColor: this.buttonColor,
-      buttonText: this.buttonText, slideButtonMargin: this.slideButtonMargin,
-      slideButtonColor: this.slideButtonColor, buttonTextColor: this.buttonTextColor,
-      slideButtonIconColor: this.slideButtonIconColor, slideButtonIcon: this.slideButtonIcon,
-      slideButtonIconSize: this.slideButtonIconSize, radius: this.radius,
-      successfulThreshold: this.successfulThreshold, widgetWhenSlideIsCompleted: this.widgetWhenSlideIsCompleted,
-      onSlideSuccessCallback: this.onSlideSuccessCallback
-  );
-
+      buttonHeight: this.buttonHeight,
+      buttonColor: this.buttonColor,
+      buttonText: this.buttonText,
+      slideButtonMargin: this.slideButtonMargin,
+      slideButtonColor: this.slideButtonColor,
+      buttonTextColor: this.buttonTextColor,
+      slideButtonIconColor: this.slideButtonIconColor,
+      slideButtonIcon: this.slideButtonIcon,
+      slideButtonIconSize: this.slideButtonIconSize,
+      radius: this.radius,
+      successfulThreshold: this.successfulThreshold,
+      widgetWhenSlideIsCompleted: this.widgetWhenSlideIsCompleted,
+      onSlideSuccessCallback: this.onSlideSuccessCallback);
 }
 
 class SlidingButtonState extends State<SlidingButton> {
-
   final _buttonKey = GlobalKey();
   final _slideButtonKey = GlobalKey();
 
@@ -132,8 +135,13 @@ class SlidingButtonState extends State<SlidingButton> {
     if (this.widgetWhenSlideIsCompleted == null) {
       this.widgetWhenSlideIsCompleted = Center(
         child: SizedBox(
-          width: buttonHeight / 3, height: buttonHeight / 3,
-          child: PlatformProgressIndicator(materialValueColor: AlwaysStoppedAnimation<Color>(this.slideButtonIconColor), materialStrokeWidth: 1.3,),
+          width: buttonHeight / 3,
+          height: buttonHeight / 3,
+          child: PlatformProgressIndicator(
+            materialValueColor:
+                AlwaysStoppedAnimation<Color>(this.slideButtonIconColor),
+            materialStrokeWidth: 1.3,
+          ),
         ),
       );
     }
@@ -146,21 +154,26 @@ class SlidingButtonState extends State<SlidingButton> {
       child: GestureDetector(
         onTapDown: (tapDetails) {
           // Check if the tap down event has occurred inside the slide button
-          final RenderBox renderBox = _slideButtonKey.currentContext.findRenderObject();
+          final RenderBox renderBox =
+              _slideButtonKey.currentContext.findRenderObject();
           final slideButtonOffset = renderBox.localToGlobal(Offset.zero);
           // On all positions I've added the _slideButtonMargin. Basically we use the _slideButtonMargin as a invisible touchable area that triggers the slide event
           final startXPosition = slideButtonOffset.dx - _slideButtonMargin;
-          final endXPosition = startXPosition + buttonHeight + _slideButtonMargin;
+          final endXPosition =
+              startXPosition + buttonHeight + _slideButtonMargin;
           final startYPosition = slideButtonOffset.dy - _slideButtonMargin;
-          final endYPosition = startYPosition + buttonHeight + _slideButtonMargin;
+          final endYPosition =
+              startYPosition + buttonHeight + _slideButtonMargin;
           // We only enable the slide gesture if the tap occurs inside the slide button
-          if ((tapDetails.globalPosition.dx >= startXPosition && tapDetails.globalPosition.dx <= endXPosition) &&
-              (tapDetails.globalPosition.dy >= startYPosition && tapDetails.globalPosition.dy <= endYPosition)) {
+          if ((tapDetails.globalPosition.dx >= startXPosition &&
+                  tapDetails.globalPosition.dx <= endXPosition) &&
+              (tapDetails.globalPosition.dy >= startYPosition &&
+                  tapDetails.globalPosition.dy <= endYPosition)) {
             _isSlideEnabled = true;
             _slideButtonSize = buttonHeight;
             _slideButtonMargin = 0;
             setState(() {});
-          } else{
+          } else {
             _isSlideEnabled = false;
             _isSlideStarted = false;
           }
@@ -191,8 +204,12 @@ class SlidingButtonState extends State<SlidingButton> {
             _slideButtonSize = buttonHeight + _slideButtonMarginDragOffset;
             _slideButtonMargin = 0;
             // Check for minimum values that must be respected. We don't animate the slide button below the minimum.
-            _slideButtonMarginDragOffset = _slideButtonMarginDragOffset < 0 ? 0 : _slideButtonMarginDragOffset;
-            _slideButtonSize = _slideButtonSize < buttonHeight ? buttonHeight : _slideButtonSize;
+            _slideButtonMarginDragOffset = _slideButtonMarginDragOffset < 0
+                ? 0
+                : _slideButtonMarginDragOffset;
+            _slideButtonSize = _slideButtonSize < buttonHeight
+                ? buttonHeight
+                : _slideButtonSize;
             setState(() {});
           }
         },
@@ -205,8 +222,10 @@ class SlidingButtonState extends State<SlidingButton> {
         onHorizontalDragEnd: (dragDetails) {
           if (_isSlideEnabled || _isSlideStarted) {
             // Check if the slide event has reached the minimum threshold to be considered a successful slide event
-            final RenderBox renderBox = _buttonKey.currentContext.findRenderObject();
-            if (_slideButtonSize >= successfulThreshold * renderBox.size.width) {
+            final RenderBox renderBox =
+                _buttonKey.currentContext.findRenderObject();
+            if (_slideButtonSize >=
+                successfulThreshold * renderBox.size.width) {
               _slideButtonSize = renderBox.size.width;
               _hasCompletedSlideWithSuccess = true;
               _isSlideEnabled = false;
@@ -223,7 +242,8 @@ class SlidingButtonState extends State<SlidingButton> {
         child: Card(
           clipBehavior: Clip.antiAlias,
           color: buttonColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(this.radius)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(this.radius)),
           elevation: 4,
           child: Container(
             key: _buttonKey,
@@ -234,15 +254,24 @@ class SlidingButtonState extends State<SlidingButton> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
-                    margin: EdgeInsets.only(left: (slideButtonMargin / 2) + buttonHeight),
-                    child: Text(this.buttonText.toUpperCase(), style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: buttonTextColor),),
+                    margin: EdgeInsets.only(
+                        left: (slideButtonMargin / 2) + buttonHeight),
+                    child: Text(
+                      this.buttonText.toUpperCase(),
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: buttonTextColor),
+                    ),
                   ),
                 ),
                 AnimatedContainer(
                   key: _slideButtonKey,
-                  margin: EdgeInsets.only(left: _slideButtonMargin, top: _slideButtonMargin),
+                  margin: EdgeInsets.only(
+                      left: _slideButtonMargin, top: _slideButtonMargin),
                   duration: Duration(milliseconds: 100),
-                  width: _slideButtonSize, height: _slideButtonSize,
+                  width: _slideButtonSize,
+                  height: _slideButtonSize,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(this.radius),
                     color: slideButtonColor,
@@ -256,7 +285,9 @@ class SlidingButtonState extends State<SlidingButton> {
                   ),
                   child: Center(
                     child: Icon(
-                      this.slideButtonIcon, color: slideButtonIconColor, size: this.slideButtonIconSize,
+                      this.slideButtonIcon,
+                      color: slideButtonIconColor,
+                      size: this.slideButtonIconSize,
                     ),
                   ),
                 ),
@@ -264,7 +295,8 @@ class SlidingButtonState extends State<SlidingButton> {
                   opacity: _hasCompletedSlideWithSuccess ? 1.0 : 0.0,
                   duration: Duration(milliseconds: 300),
                   child: Container(
-                    width: double.infinity, height: buttonHeight,
+                    width: double.infinity,
+                    height: buttonHeight,
                     color: slideButtonColor,
                     child: Center(
                       child: widgetWhenSlideIsCompleted,
@@ -293,5 +325,4 @@ class SlidingButtonState extends State<SlidingButton> {
     _isSlideStarted = false;
     setState(() {});
   }
-
 }
