@@ -274,14 +274,7 @@ class SlidingButtonState extends State<SlidingButton> {
                   height: _slideButtonSize,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(this.radius),
-                    color: slideButtonColor,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 5.0,
-                        spreadRadius: 2.0,
-                      )
-                    ],
+                    color: slideButtonColor,                    
                   ),
                   child: Center(
                     child: Icon(
