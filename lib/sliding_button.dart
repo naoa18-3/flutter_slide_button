@@ -229,13 +229,13 @@ class SlidingButtonState extends State<SlidingButton> {
             setState(() {});
           }
         },
-        onHorizontalDragCancel:  !_isEnable ? unableCallback : () {
+        onHorizontalDragCancel:  !_isEnable ? () => unableCallback : () {
           _isSlideStarted = false;
           _isSlideEnabled = false;
           _resetSlideButton();
           setState(() {});
         },
-        onHorizontalDragEnd:  !_isEnable ? (_) => unableCallback : (dragDetails) {
+        onHorizontalDragEnd:  !_isEnable ? unableCallback : (dragDetails) {
           if (_isSlideEnabled || _isSlideStarted) {
             // Check if the slide event has reached the minimum threshold to be considered a successful slide event
             final RenderBox renderBox =
@@ -340,7 +340,7 @@ class SlidingButtonState extends State<SlidingButton> {
     _isEnable = false;
   }
 
-  void enabl() {
+  void enable() {
     _isEnable = true;
   }
 }
