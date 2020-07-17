@@ -31,6 +31,8 @@ class SlidingButton extends StatefulWidget {
   final Widget widgetWhenSlideIsCompleted;
   // A simple VoidCallback that WILL BE CALLED WHEN THE SLIDE ACTION IS COMPLETED
   final VoidCallback onSlideSuccessCallback;
+  // Function called when button is unable
+  final Function unableCallback;
 
   const SlidingButton({
     Key key,
@@ -47,6 +49,7 @@ class SlidingButton extends StatefulWidget {
     this.successfulThreshold = 0.9,
     this.widgetWhenSlideIsCompleted,
     this.onSlideSuccessCallback,
+    this.unableCallback,
   }) : super(key: key);
 
   @override
@@ -63,7 +66,8 @@ class SlidingButton extends StatefulWidget {
       radius: this.radius,
       successfulThreshold: this.successfulThreshold,
       widgetWhenSlideIsCompleted: this.widgetWhenSlideIsCompleted,
-      onSlideSuccessCallback: this.onSlideSuccessCallback);
+      onSlideSuccessCallback: this.onSlideSuccessCallback
+      unableCallback: this.unableCallback);
 }
 
 class SlidingButtonState extends State<SlidingButton> {
@@ -109,6 +113,11 @@ class SlidingButtonState extends State<SlidingButton> {
   double _slideButtonSize;
   double _slideButtonMargin;
 
+  // Callback when unable
+  Function unableCallback;
+  // Variable to Enable or Unable sliding feature
+  bool _isEnable = true;
+
   SlidingButtonState({
     this.buttonHeight,
     this.buttonColor,
@@ -123,6 +132,7 @@ class SlidingButtonState extends State<SlidingButton> {
     this.successfulThreshold,
     this.widgetWhenSlideIsCompleted,
     this.onSlideSuccessCallback,
+    this.unableCallback,
   });
 
   @override
@@ -152,7 +162,7 @@ class SlidingButtonState extends State<SlidingButton> {
     return IgnorePointer(
       ignoring: _hasCompletedSlideWithSuccess,
       child: GestureDetector(
-        onTapDown: (tapDetails) {
+        onTapDown: !_isEnable ? unableCallback : (tapDetails) {
           // Check if the tap down event has occurred inside the slide button
           final RenderBox renderBox =
               _slideButtonKey.currentContext.findRenderObject();
@@ -274,7 +284,7 @@ class SlidingButtonState extends State<SlidingButton> {
                   height: _slideButtonSize,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(this.radius),
-                    color: slideButtonColor,                    
+                    color: slideButtonColor,
                   ),
                   child: Center(
                     child: Icon(
@@ -317,5 +327,13 @@ class SlidingButtonState extends State<SlidingButton> {
     _isSlideEnabled = false;
     _isSlideStarted = false;
     setState(() {});
+  }
+
+  void disable() {
+    _isEnable = false;
+  }
+
+  void enabl() {
+    _isEnable = true;
   }
 }
