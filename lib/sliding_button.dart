@@ -17,6 +17,8 @@ class SlidingButton extends StatefulWidget {
   final double slideButtonMargin;
   // Change the BACKGROUND COLOR of the SLIDE BUTTON
   final Color slideButtonColor;
+  // Change the BACKGROUND COLOR of the SLIDE BUTTON
+  final Color slideButtonColorOnSuccess;
   // Change the ICON COLOR of the ICON that goes inside the SLIDE BUTTON
   final Color slideButtonIconColor;
   // Change the ICON of the widget that goes inside the SLIDE BUTTON
@@ -42,6 +44,7 @@ class SlidingButton extends StatefulWidget {
     this.buttonText = 'Slide to confirm...',
     this.slideButtonMargin = 7.5,
     this.slideButtonColor = Colors.white,
+    this.slideButtonColorOnSuccess,
     this.slideButtonIconColor = Colors.green,
     this.slideButtonIcon = Icons.chevron_right,
     this.slideButtonIconSize = 30.0,
@@ -59,6 +62,7 @@ class SlidingButton extends StatefulWidget {
       buttonText: this.buttonText,
       slideButtonMargin: this.slideButtonMargin,
       slideButtonColor: this.slideButtonColor,
+      slideButtonColorOnSuccess : this.slideButtonColorOnSuccess,
       buttonTextColor: this.buttonTextColor,
       slideButtonIconColor: this.slideButtonIconColor,
       slideButtonIcon: this.slideButtonIcon,
@@ -86,6 +90,7 @@ class SlidingButtonState extends State<SlidingButton> {
   double slideButtonMargin;
   // Change the BACKGROUND COLOR of the SLIDE BUTTON
   Color slideButtonColor;
+  Color slideButtonColorOnSuccess;
   // Change the ICON COLOR of the ICON that goes inside the SLIDE BUTTON
   Color slideButtonIconColor;
   // Change the ICON of the widget that goes inside the SLIDE BUTTON
@@ -125,6 +130,7 @@ class SlidingButtonState extends State<SlidingButton> {
     this.buttonText,
     this.slideButtonMargin,
     this.slideButtonColor,
+    this.slideButtonColorOnSuccess,
     this.slideButtonIconColor,
     this.slideButtonIcon,
     this.slideButtonIconSize,
@@ -162,7 +168,7 @@ class SlidingButtonState extends State<SlidingButton> {
     return IgnorePointer(
       ignoring: _hasCompletedSlideWithSuccess,
       child: GestureDetector(
-        onTapDown: !_isEnable ? unableCallback : (tapDetails) {
+        onTapDown: !_isEnable ? (_) => unableCallback : (tapDetails) {
           // Check if the tap down event has occurred inside the slide button
           final RenderBox renderBox =
               _slideButtonKey.currentContext.findRenderObject();
@@ -188,19 +194,19 @@ class SlidingButtonState extends State<SlidingButton> {
             _isSlideStarted = false;
           }
         },
-        onTapUp: !_isEnable ? unableCallback : (details) {
+        onTapUp: !_isEnable ? (_) => unableCallback : (details) {
           _isSlideEnabled = false;
           _resetSlideButton();
           setState(() {});
         },
-        onTapCancel:  !_isEnable ? unableCallback : () {
+        onTapCancel:  !_isEnable ? () => unableCallback : () {
           if (!_isSlideEnabled) {
             _isSlideEnabled = false;
             _resetSlideButton();
             setState(() {});
           }
         },
-        onHorizontalDragStart:  !_isEnable ? unableCallback : (dragDetails) {
+        onHorizontalDragStart:  !_isEnable ? (_) => unableCallback : (dragDetails) {
           if (_isSlideEnabled) {
             _isSlideStarted = true;
             _slideButtonSize = buttonHeight + _slideButtonMarginDragOffset;
@@ -208,7 +214,7 @@ class SlidingButtonState extends State<SlidingButton> {
             setState(() {});
           }
         },
-        onHorizontalDragUpdate:  !_isEnable ? unableCallback : (dragUpdateDetails) {
+        onHorizontalDragUpdate:  !_isEnable ? (_) => unableCallback : (dragUpdateDetails) {
           if (_isSlideStarted) {
             _slideButtonMarginDragOffset += dragUpdateDetails.delta.dx;
             _slideButtonSize = buttonHeight + _slideButtonMarginDragOffset;
@@ -223,13 +229,13 @@ class SlidingButtonState extends State<SlidingButton> {
             setState(() {});
           }
         },
-        onHorizontalDragCancel:  !_isEnable ? unableCallback : () {
+        onHorizontalDragCancel:  !_isEnable ? () => unableCallback : () {
           _isSlideStarted = false;
           _isSlideEnabled = false;
           _resetSlideButton();
           setState(() {});
         },
-        onHorizontalDragEnd:  !_isEnable ? unableCallback : (dragDetails) {
+        onHorizontalDragEnd:  !_isEnable ? (_) => unableCallback : (dragDetails) {
           if (_isSlideEnabled || _isSlideStarted) {
             // Check if the slide event has reached the minimum threshold to be considered a successful slide event
             final RenderBox renderBox =
@@ -242,6 +248,7 @@ class SlidingButtonState extends State<SlidingButton> {
               _isSlideStarted = false;
               // Make sure that we've called the success callback
               onSlideSuccessCallback?.call();
+              slideButtonColor = slideButtonColorOnSuccess ?? slideButtonColor;
             } else {
               _slideButtonMarginDragOffset = 0;
               _resetSlideButton();
