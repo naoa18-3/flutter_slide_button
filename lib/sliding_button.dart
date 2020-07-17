@@ -168,7 +168,7 @@ class SlidingButtonState extends State<SlidingButton> {
     return IgnorePointer(
       ignoring: _hasCompletedSlideWithSuccess,
       child: GestureDetector(
-        onTapDown: !_isEnable ? (_) => unableCallback : (tapDetails) {
+        onTapDown: !_isEnable ? unableCallback : (tapDetails) {
           // Check if the tap down event has occurred inside the slide button
           final RenderBox renderBox =
               _slideButtonKey.currentContext.findRenderObject();
@@ -194,7 +194,7 @@ class SlidingButtonState extends State<SlidingButton> {
             _isSlideStarted = false;
           }
         },
-        onTapUp: !_isEnable ? (_) => unableCallback : (details) {
+        onTapUp: !_isEnable ? unableCallback : (details) {
           _isSlideEnabled = false;
           _resetSlideButton();
           setState(() {});
@@ -206,7 +206,7 @@ class SlidingButtonState extends State<SlidingButton> {
             setState(() {});
           }
         },
-        onHorizontalDragStart:  !_isEnable ? (_) => unableCallback : (dragDetails) {
+        onHorizontalDragStart:  !_isEnable ? unableCallback : (dragDetails) {
           if (_isSlideEnabled) {
             _isSlideStarted = true;
             _slideButtonSize = buttonHeight + _slideButtonMarginDragOffset;
@@ -214,7 +214,7 @@ class SlidingButtonState extends State<SlidingButton> {
             setState(() {});
           }
         },
-        onHorizontalDragUpdate:  !_isEnable ? (_) => unableCallback : (dragUpdateDetails) {
+        onHorizontalDragUpdate:  !_isEnable ? unableCallback : (dragUpdateDetails) {
           if (_isSlideStarted) {
             _slideButtonMarginDragOffset += dragUpdateDetails.delta.dx;
             _slideButtonSize = buttonHeight + _slideButtonMarginDragOffset;
@@ -229,7 +229,7 @@ class SlidingButtonState extends State<SlidingButton> {
             setState(() {});
           }
         },
-        onHorizontalDragCancel:  !_isEnable ? () => unableCallback : () {
+        onHorizontalDragCancel:  !_isEnable ? unableCallback : () {
           _isSlideStarted = false;
           _isSlideEnabled = false;
           _resetSlideButton();
