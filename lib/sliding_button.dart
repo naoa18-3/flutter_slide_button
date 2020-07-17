@@ -188,19 +188,19 @@ class SlidingButtonState extends State<SlidingButton> {
             _isSlideStarted = false;
           }
         },
-        onTapUp: (details) {
+        onTapUp: !_isEnable ? unableCallback : (details) {
           _isSlideEnabled = false;
           _resetSlideButton();
           setState(() {});
         },
-        onTapCancel: () {
+        onTapCancel:  !_isEnable ? unableCallback : () {
           if (!_isSlideEnabled) {
             _isSlideEnabled = false;
             _resetSlideButton();
             setState(() {});
           }
         },
-        onHorizontalDragStart: (dragDetails) {
+        onHorizontalDragStart:  !_isEnable ? unableCallback : (dragDetails) {
           if (_isSlideEnabled) {
             _isSlideStarted = true;
             _slideButtonSize = buttonHeight + _slideButtonMarginDragOffset;
@@ -208,7 +208,7 @@ class SlidingButtonState extends State<SlidingButton> {
             setState(() {});
           }
         },
-        onHorizontalDragUpdate: (dragUpdateDetails) {
+        onHorizontalDragUpdate:  !_isEnable ? unableCallback : (dragUpdateDetails) {
           if (_isSlideStarted) {
             _slideButtonMarginDragOffset += dragUpdateDetails.delta.dx;
             _slideButtonSize = buttonHeight + _slideButtonMarginDragOffset;
@@ -223,13 +223,13 @@ class SlidingButtonState extends State<SlidingButton> {
             setState(() {});
           }
         },
-        onHorizontalDragCancel: () {
+        onHorizontalDragCancel:  !_isEnable ? unableCallback : () {
           _isSlideStarted = false;
           _isSlideEnabled = false;
           _resetSlideButton();
           setState(() {});
         },
-        onHorizontalDragEnd: (dragDetails) {
+        onHorizontalDragEnd:  !_isEnable ? unableCallback : (dragDetails) {
           if (_isSlideEnabled || _isSlideStarted) {
             // Check if the slide event has reached the minimum threshold to be considered a successful slide event
             final RenderBox renderBox =
@@ -254,7 +254,7 @@ class SlidingButtonState extends State<SlidingButton> {
           color: buttonColor,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(this.radius)),
-          elevation: 4,
+          elevation: 0,
           child: Container(
             key: _buttonKey,
             width: double.infinity,
