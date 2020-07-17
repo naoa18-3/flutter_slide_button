@@ -66,7 +66,7 @@ class SlidingButton extends StatefulWidget {
       radius: this.radius,
       successfulThreshold: this.successfulThreshold,
       widgetWhenSlideIsCompleted: this.widgetWhenSlideIsCompleted,
-      onSlideSuccessCallback: this.onSlideSuccessCallback
+      onSlideSuccessCallback: this.onSlideSuccessCallback,
       unableCallback: this.unableCallback);
 }
 
